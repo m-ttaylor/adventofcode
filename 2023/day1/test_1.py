@@ -1,4 +1,4 @@
-from day1 import add
+from solution import foo
 
 
 def test_add_should_add_correctly():

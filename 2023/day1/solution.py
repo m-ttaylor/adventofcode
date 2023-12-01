@@ -1,11 +1,8 @@
-TEST = False
+from utils import aoc
 
-data = []
-inputFile = "2023/inputs/"
-inputFile += "1test2.txt" if TEST else "day1.txt"
-with open(inputFile, "r") as f:
-    for line in f.readlines():
-        data.append(line.strip())
+TEST = True
+
+data = aoc.getInput(2023, 1, TEST)
 
 numbers = {
     "one": 1,
