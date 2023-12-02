@@ -14,9 +14,12 @@ def part1():
         id, reveals = game.split(":")
         possible = True
         for reveal in reveals.split(";"):
-            for cubes in reveal.strip().split(","):
-                amount, color = cubes.strip().split(" ")
-                possible &= int(amount) <= bag[color]
+            possible &= all(
+                int(amount) <= bag[color]
+                for amount, color in map(
+                    lambda cube: cube.strip().split(" "), reveal.strip().split(",")
+                )
+            )
 
         if possible:
             total += int(id.split(" ")[1])
@@ -40,5 +43,6 @@ def part2():
     return total
 
 
-print(part1())
-print(part2())
+print(all(i > 0 for i in [1, 2, 3, 4]))
+print(part1())  # 3099
+print(part2())  # 72970
