@@ -36,14 +36,12 @@ def part2():
         winningNumbers, myNumbers = numbers.split("|")
         winningNumbers = set(parseInts(winningNumbers))
         myNumbers = set(parseInts(myNumbers))
-        matches = 0
-        if game in games:
-            matches = games[game]
-        else:
+        matches = games.get(game, 0)
+        if not matches:
             for number in myNumbers:
                 if number in winningNumbers:
                     matches += 1
-        games[game] = matches
+            games[game] = matches
 
         for i in range(matches):
             copies.append(game + i + 1)
