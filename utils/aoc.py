@@ -15,4 +15,18 @@ def isDigit(char: str):
         return False
     else:
         return True
-    # return char in {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+
+
+def parseInts(string: str):
+    "find and return all ints in string separated by spaces or commas"
+    values = []
+    for chunk in string.strip().replace(",", " ").split(" "):
+        value: int = None
+        try:
+            value = int(chunk)
+        except ValueError:
+            pass
+        else:
+            values.append(value)
+
+    return values

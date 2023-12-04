@@ -1,24 +1,7 @@
 from collections import deque
 import math
 from utils import aoc
-
-
-def parseInts(string: str):
-    "find and return all ints in string separated by spaces or commas"
-    values = []
-    for chunk in string.strip().replace(",", " ").split(" "):
-        value: int = None
-        try:
-            value = int(chunk)
-        except ValueError:
-            pass
-        else:
-            values.append(value)
-
-    return values
-
-
-"""template"""
+from utils.aoc import parseInts
 
 TEST = False
 
