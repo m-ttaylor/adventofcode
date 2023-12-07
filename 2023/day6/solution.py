@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 from utils import aoc
 
 
@@ -48,5 +49,15 @@ def part2():
     return right - left + 1
 
 
+def part2Quadratic():
+    time = int("".join(str(t) for t in times))
+    distance = int("".join(str(d) for d in distances))
+
+    left = time + math.sqrt(time**2 - 4 * distance) / 2
+    right = time - math.sqrt(time**2 - 4 * distance) / 2
+    return math.floor(left) - math.floor(right) - 1
+
+
 print(part1())
 print(part2())
+print(part2Quadratic())
