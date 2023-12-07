@@ -3,9 +3,9 @@ from utils import aoc
 
 """template"""
 
-TEST = False
+TEST = True
 
-data = aoc.getInput(2023, DAY, TEST)
+data = aoc.getInput(2023, 7, TEST)
 
 
 def part1():
