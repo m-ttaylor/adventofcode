@@ -94,23 +94,31 @@ def p2GetTypeOfHand(hand: str):
     jokers = hand.count("J")
 
     counts = {
-        c: min(hand.count(c) + jokers, 4)
-        for c in ascii_uppercase + "23456789"
-        if hand.count(c) > 0
+        c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
+
+    if jokers < 5:
+        maxCount = max([v for (k, v) in counts.items() if k != "J"])
+        for c in counts:
+            if c != "J" and counts[c] == maxCount:
+                counts[c] += jokers
+                jokers = 0
 
     pairs = 0
     triples = 0
 
-    if any([value == 5 for value in counts.values()]):
+    if any([value >= 5 for value in counts.values()]):
         return "5oak"
     if any([value == 4 for value in counts.values()]):
         return "4oak"
 
     for c in counts:
-        if counts[c] == 3:
+        # this is a bit kludgey, but we can just ignore triples or doubles of Joker,
+        # because they could always go towards making something else more valuable
+        if c != "J" and counts[c] == 3:
             triples += 1
-        elif counts[c] == 2:
+
+        elif c != "J" and counts[c] == 2:
             pairs += 1
 
     if triples and pairs:
@@ -125,17 +133,9 @@ def p2GetTypeOfHand(hand: str):
 
 
 if TEST:
-    for hand, bid in games:
-        print("-" * 40)
-        print(f"| {hand=}")
-        print(f"|   {p2GetTypeOfHand(hand)}")
-        print(f"|   {p2HandScoreKey((hand, bid))}")
-        print("-" * 40)
-        print()
-
     games.sort(key=p2HandScoreKey)
     for rank, (hand, bid) in enumerate(games):
-        print(f"{rank+1}: {hand}  {bid}")
+        print(f"{rank+1}: {hand}  {bid} -- hint: {p2GetTypeOfHand(hand)}")
 
 
 def part1():
@@ -160,12 +160,3 @@ def part2():
 
 print(part1())
 print(part2())
-
-
-"""
-wrong answers:
-    pt2:
-        253176008
-        252786626
-
-"""
