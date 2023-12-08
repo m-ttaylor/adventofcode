@@ -61,23 +61,21 @@ def p2HandScoreKey(game):
 
 
 def getTypeOfHand(hand: str):
+    """
+    253603890
+    253630098
+    """
     counts = {
         c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
-
-    pairs = 0
-    triples = 0
 
     if any([value == 5 for value in counts.values()]):
         return "5oak"
     if any([value == 4 for value in counts.values()]):
         return "4oak"
 
-    for c in counts:
-        if counts[c] == 3:
-            triples += 1
-        elif counts[c] == 2:
-            pairs += 1
+    pairs = list(counts.values()).count(2)
+    triples = 3 in counts.values()
 
     if triples and pairs:
         return "fullHouse"
@@ -91,11 +89,10 @@ def getTypeOfHand(hand: str):
 
 
 def p2GetTypeOfHand(hand: str):
-    jokers = hand.count("J")
-
     counts = {
         c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
+    jokers = counts.get("J", 0)
 
     if jokers < 5:
         maxCount = max([v for (k, v) in counts.items() if k != "J"])
@@ -103,6 +100,7 @@ def p2GetTypeOfHand(hand: str):
             if c != "J" and counts[c] == maxCount:
                 counts[c] += jokers
                 jokers = 0
+                break
 
     pairs = 0
     triples = 0
