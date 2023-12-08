@@ -13,7 +13,6 @@ def handScoreKey(game):
     """
     the lowest score here needs to be at least 5x the highest card value, then
     increment by the highest value+1
-
     or we could just return a tuple of tuples and let python do it's thing ¯\_(ツ)_/¯
     """
 
@@ -61,10 +60,6 @@ def p2HandScoreKey(game):
 
 
 def getTypeOfHand(hand: str):
-    """
-    253603890
-    253630098
-    """
     counts = {
         c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
@@ -102,13 +97,13 @@ def p2GetTypeOfHand(hand: str):
                 jokers = 0
                 break
 
-    pairs = 0
-    triples = 0
-
     if any([value >= 5 for value in counts.values()]):
         return "5oak"
     if any([value == 4 for value in counts.values()]):
         return "4oak"
+
+    pairs = 0
+    triples = 0
 
     for c in counts:
         # this is a bit kludgey, but we can just ignore triples or doubles of Joker,
