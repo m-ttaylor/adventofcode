@@ -5,7 +5,7 @@ from utils import aoc
 
 TEST = True
 
-data = aoc.getInput(2023, 7, TEST)
+data = aoc.getInput(2023, D, TEST)
 
 
 def part1():
