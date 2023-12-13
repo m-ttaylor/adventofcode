@@ -4,8 +4,9 @@ from utils import aoc
 """template"""
 
 TEST = True
+D = -1
 
-data = aoc.getInput(2023, 7, TEST)
+data = aoc.getInput(2023, 1, TEST)
 
 
 def part1():

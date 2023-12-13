@@ -13,7 +13,6 @@ def handScoreKey(game):
     """
     the lowest score here needs to be at least 5x the highest card value, then
     increment by the highest value+1
-
     or we could just return a tuple of tuples and let python do it's thing ¯\_(ツ)_/¯
     """
 
@@ -65,19 +64,13 @@ def getTypeOfHand(hand: str):
         c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
 
-    pairs = 0
-    triples = 0
-
     if any([value == 5 for value in counts.values()]):
         return "5oak"
     if any([value == 4 for value in counts.values()]):
         return "4oak"
 
-    for c in counts:
-        if counts[c] == 3:
-            triples += 1
-        elif counts[c] == 2:
-            pairs += 1
+    pairs = list(counts.values()).count(2)
+    triples = 3 in counts.values()
 
     if triples and pairs:
         return "fullHouse"
@@ -91,11 +84,10 @@ def getTypeOfHand(hand: str):
 
 
 def p2GetTypeOfHand(hand: str):
-    jokers = hand.count("J")
-
     counts = {
         c: hand.count(c) for c in ascii_uppercase + "23456789" if hand.count(c) > 0
     }
+    jokers = counts.get("J", 0)
 
     if jokers < 5:
         maxCount = max([v for (k, v) in counts.items() if k != "J"])
@@ -103,14 +95,15 @@ def p2GetTypeOfHand(hand: str):
             if c != "J" and counts[c] == maxCount:
                 counts[c] += jokers
                 jokers = 0
-
-    pairs = 0
-    triples = 0
+                break
 
     if any([value >= 5 for value in counts.values()]):
         return "5oak"
     if any([value == 4 for value in counts.values()]):
         return "4oak"
+
+    pairs = 0
+    triples = 0
 
     for c in counts:
         # this is a bit kludgey, but we can just ignore triples or doubles of Joker,
