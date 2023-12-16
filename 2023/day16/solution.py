@@ -1,19 +1,13 @@
-from collections import defaultdict
-from dataclasses import dataclass
-from functools import cache
 import sys
-from utils import aoc
-
-from enum import Enum
-
-# import numpy as np
 from numpy import array
 
-sys.setrecursionlimit(4000)
+from utils import aoc
+
+sys.setrecursionlimit(4000)  # 4x the default max
+
 TEST = False
 
 data = aoc.getInput(2023, 16, TEST)
-
 contraption = array([list(line) for line in data])
 
 NORTH, EAST, SOUTH, WEST = (0, -1), (1, 0), (0, 1), (-1, 0)  # x, y vectors
@@ -23,12 +17,7 @@ w, h = contraption.shape
 # NUMPY IS ROW, COLUMN ACCESS
 print(contraption.shape)
 
-lit = set()
-
 lightSymbol = {NORTH: "^", EAST: ">", SOUTH: "v", WEST: "<"}
-
-
-memo = set()
 
 
 def emit(sx, sy, dir):
@@ -84,18 +73,36 @@ def emit(sx, sy, dir):
                 emit(nx, ny, dir)
 
 
+lit = set()
+memo = set()
 emit(-1, 0, EAST)
-print(len(lit))
-print(contraption)
+print("part 1:", len(lit))
 
+# Sure, we could do something clever...
+mostEnergized = 0
 
-def part1():
-    pass
+for y in range(h):  # west edge
+    lit = set()
+    memo = set()
+    emit(-1, y, EAST)
+    mostEnergized = max(mostEnergized, len(lit))
 
+for x in range(w):  # north edge
+    lit = set()
+    memo = set()
+    emit(x, -1, SOUTH)
+    mostEnergized = max(mostEnergized, len(lit))
 
-def part2():
-    pass
+for y in range(h):  # south edge
+    lit = set()
+    memo = set()
+    emit(h + 1, y, NORTH)
+    mostEnergized = max(mostEnergized, len(lit))
 
+for x in range(w):  # east edge
+    lit = set()
+    memo = set()
+    emit(x, w + 1, WEST)
+    mostEnergized = max(mostEnergized, len(lit))
 
-print(part1())
-print(part2())
+print("part 2:", mostEnergized)
