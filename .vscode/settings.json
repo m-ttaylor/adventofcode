@@ -1,5 +1,8 @@
 {
     "terminal.integrated.env.osx": {
         "PYTHONPATH": "${workspaceRoot}"
+    },
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceRoot}"
     }
 }
