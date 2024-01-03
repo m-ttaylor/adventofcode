@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4dfef180a0c43f6dca92f71baeb15f2f3f0d7a979c5471c9c62b2365a73ebabf"
+            "sha256": "d6e439dcd5276ca86f40c6c113d4524770efbaa0fa9417b7b0b5798f2ffd86ab"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "networkx": {
+            "hashes": [
+                "sha256:9f1bb5cf3409bf324e0a722c20bdb4c20ee39bf1c30ce8ae499c8502b0b5e0c6",
+                "sha256:f18c69adc97877c42332c170849c96cefa91881c99a7cb3e95b7c659ebdc1ec2"
+            ],
+            "index": "pypi",
+            "version": "==3.2.1"
+        },
         "numpy": {
             "hashes": [
                 "sha256:06fa1ed84aa60ea6ef9f91ba57b5ed963c3729534e6e54055fc151fad0423f0a",

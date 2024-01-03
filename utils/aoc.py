@@ -6,6 +6,14 @@ def getInput(year, day, test=False):
     return input
 
 
+def getInputRaw(year, day, test=False):
+    input = None
+    with open(f"{year}/inputs/day-{day}{'-test' if test else ''}.txt", "r") as f:
+        input = f.read().strip()
+
+    return input
+
+
 def isDigit(char: str):
     if len(char) > 1:
         raise Exception("please only check one character at a time")
@@ -30,3 +38,6 @@ def parseInts(string: str):
             values.append(value)
 
     return values
+
+
+dirs = {(-1, 0), (1, 0), (0, 1), (0, -1)}
