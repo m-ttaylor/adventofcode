@@ -1,31 +1,29 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 from functools import reduce
 from utils import aoc
 
-with open("2024/1/input") as f:
+YEAR = 2024
+DAY = 1
+TEST = False
+
+file = f"{YEAR}/{DAY}/" if TEST else f"{YEAR}/{DAY}/input"
+
+with open(file) as f:
     data = f.read().strip().split("\n")
 
+list1, list2 = [], []
+for line in data:
+    list1.append(int(line.split()[0]))
+    list2.append(int(line.split()[1]))
+list1.sort()
+list2.sort()
 
-def part1():
-    list1, list2 = [], []
-    for line in data:
-        list1.append(int(line.split()[0]))
-        list2.append(int(line.split()[1]))
-    list1.sort()
-    list2.sort()
+ans = sum(abs(left - right) for left, right in zip(list1, list2))
+print(ans)
 
-    return reduce(lambda tot, i: tot + (abs(list2[i] - list1[i])), range(len(list1)), 0)
+counts = Counter(list2)
+ans = 0
+for num in list1:
+    ans += num * counts[num]
 
-
-def part2():
-    counts = defaultdict(int)
-    list1 = []
-    for line in data:
-        counts[int(line.split()[1])] += 1
-        list1.append(int(line.split()[0]))
-
-    return reduce(lambda tot, x: tot + x * counts[x], list1, 0)
-
-
-print(part1())
-print(part2())
+print(ans)
