@@ -2,6 +2,7 @@ from collections import defaultdict, Counter
 from functools import reduce
 from heapq import heappop, heappush
 
+fourDirs = ((1, 0), (0, 1), (-1, 0), (0, -1))  # up right down left
 
 YEAR = 2024
 DAY = 10
@@ -14,16 +15,17 @@ with open(file) as f:
 
 grid = [list(map(int, line)) for line in data]
 rows, cols = len(grid), len(grid[0])
-print(grid)
+
+
+def inBounds(r, c):
+    return 0 <= r < rows and 0 <= c < cols
+
 
 starts = []
 for r, row in enumerate(grid):
     for c, col in enumerate(row):
         if col == 0:
             starts.append((r, c))
-
-
-pt1 = 0
 
 
 def findTrail(pos, trailheads):
@@ -34,9 +36,7 @@ def findTrail(pos, trailheads):
         pr, pc = heap.pop()
 
         for nr, nc in (
-            (pr + dr, pc + dc)
-            for (dr, dc) in ((0, 1), (1, 0), (0, -1), (-1, 0))
-            if 0 <= pr + dr < rows and 0 <= pc + dc < cols
+            (pr + dr, pc + dc) for (dr, dc) in fourDirs if inBounds(pr + dr, pc + dc)
         ):
             if (nr, nc) not in visited:
                 if grid[nr][nc] == grid[pr][pc] + 1:
@@ -48,34 +48,30 @@ def findTrail(pos, trailheads):
     return trailheads
 
 
-def findDistinct(pos, path):
+def findDistinct(pos, path, height):
     pr, pc = pos
-    if grid[pr][pc] == 9:
-        paths.add(path)
 
-    for dr, dc in ((0, 1), (1, 0), (0, -1), (-1, 0)):
-        nr, nc = pr + dr, pc + dc
-        if (
-            0 <= pr + dr < rows
-            and 0 <= pc + dc < cols
-            and (nr, nc) not in path
-            and grid[nr][nc] == grid[pr][pc] + 1
-        ):
+    if (pr, pc) not in path and inBounds(pr, pc) and grid[pr][pc] == height:
+        if grid[pr][pc] == 9:
+            return 1
 
-            findDistinct((nr, nc), (*path, (nr, nc)))
+        return sum(
+            findDistinct((pr + dr, pc + dc), (*path, pos), height + 1)
+            for dr, dc in ((0, 1), (1, 0), (0, -1), (-1, 0))
+        )
+    return 0
 
+
+pt1 = 0
 
 for start in starts:
     pt1 += findTrail(start, 0)
-
 
 print(pt1)
 
 pt2 = 0
 
 for start in starts:
-    paths = set()
-    findDistinct(start, ())
-    pt2 += len(paths)
+    pt2 += findDistinct(start, (), 0)
 
 print(pt2)
