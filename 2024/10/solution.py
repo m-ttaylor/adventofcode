@@ -35,9 +35,7 @@ def findTrail(pos, trailheads):
     while heap:
         pr, pc = heap.pop()
 
-        for nr, nc in (
-            (pr + dr, pc + dc) for (dr, dc) in fourDirs if inBounds(pr + dr, pc + dc)
-        ):
+        for nr, nc in ((pr + dr, pc + dc) for (dr, dc) in fourDirs if inBounds(pr + dr, pc + dc)):
             if (nr, nc) not in visited:
                 if grid[nr][nc] == grid[pr][pc] + 1:
                     if grid[nr][nc] == 9:
