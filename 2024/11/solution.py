@@ -13,7 +13,7 @@ file = f"{YEAR}/{DAY}/test.txt" if TEST else f"{YEAR}/{DAY}/input"
 
 with open(file) as f:
     stones = list(map(int, f.read().strip().split(" ")))
-
+        
 print(stones)
 
 # my dumbass modified the original input so pt 2 was using the simulated output of pt1...
