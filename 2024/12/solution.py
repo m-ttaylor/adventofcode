@@ -6,7 +6,7 @@ fourDirs = ((1, 0), (0, 1), (-1, 0), (0, -1))  # up right down left
 
 YEAR = 2024
 DAY = 12
-TEST = True
+TEST = False
 
 file = f"{YEAR}/{DAY}/test.txt" if TEST else f"{YEAR}/{DAY}/input"
 
@@ -45,7 +45,6 @@ pt1 = 0
 pt2 = 0
 
 regions = []
-perimeters: list[set] = []
 for i, r in enumerate(grid):
     for j, plant in enumerate(r):
 
@@ -55,17 +54,13 @@ for i, r in enumerate(grid):
             
             pt1 += price[0]*price[1]
             regions.append(price[2])
-            perimeters.append(perimeter)
-            edges = set()
+            edges = perimeter.copy()
             for (ar, ac), (br, bc) in perimeter:
-                keep = True
                 for dr, dc in ((0, 1), (1, 0)):
                     na = ar+dr, ac+dc
                     nb = br+dr, bc+dc
                     if (na, nb) in perimeter:
-                        keep = False
-                if keep:
-                    edges.add(((ar, ac),  (br, bc)))
+                        edges.discard(((ar, ac), (br, bc)))
 
             if TEST: 
                 print("pt1:", grid[i][j], "region has a price", price)
