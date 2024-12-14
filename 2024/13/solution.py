@@ -21,30 +21,10 @@ print(claws)
 A = 3
 B = 1
 
-
-# def findPath(pos, a, b, prize, cost):
-#     x, y = pos
-#     ax, ay = a
-#     bx, by = b
-#     px, py = prize
-#     print(pos)
-#     qax, rax = divmod(px, ax)
-#     qbx, rbx = divmod(px, bx)
-#     qay, ray = divmod(py, ax)
-#     qby, rby = divmod(py, by)
-#     # if (rax % bx != 0 and ray % by != 0) or (rbx % ax != 0 and rby % ay != 0):
-#     #     return 500
-#     if pos == prize:
-#         return cost
-
-#     if x > px or y > py:
-#         return 500
-    
-#     return min(findPath((px+ax, py+ay), a, b, prize, cost+A), findPath((px+bx, py+by), a, b, prize, cost+B))
-
 pt1 = 0
 
-for claw in claws:
+print("part 1...")
+for c, claw in enumerate(claws):
 
     a, b, prize = claw
     ax, ay = [int(coord.strip()[2:]) for coord in a.split(":")[1].split(",")]
@@ -59,61 +39,61 @@ for claw in claws:
         print("b", bx, by)
         print("prize is at", px, py)
 
-    # x, y = 0, 0
-    print(f"{slope_a=} {slope_b=}")
+    print(f"claw {c+1}: {slope_a=} {slope_b=}")
     intersects = False
     cost = 0
-    for x in range(ax, px, ax):
-        # if (x, y) == prize:
-        #     intersects = True
-        #     break
+    y = 0
+    for x in range(0, px, ax):
+        if intersects:
+            break
         cost += A
-        # print("looping", x)
-        y = slope_a * x
-        # print(cost, x, y)
 
-        slope_between_point_and_prize = -(py-y) / (px-x)
-        # print(f"{slope_between_point_and_prize=}")
-        if (py-y) / (px-x) == slope_b:
+        if x == px and y == py:
+            pt1 += (x/ax) * A
+            break
+        elif x > px or y > py or x == px or y == py:
+            break
+        elif (py-y) / (px-x) == slope_b:
 
             x2 = px - x
 
-            if x2//bx == x2/bx:
-                print("which means cost is:", (x/ax)*A + (x2)/bx*B)
-                pt1 += (x/ax)*A + (x2)/bx*B
-            more_x = -(px-x) / bx - x
-            # print(more_x)
-            # if more_x == floor(more_x):
-            #     print("foo foo foo foo", A*x+B*more_x)
-            # intersects = x, y == prize
-            # intersects = (x, y) == prize
-            print("A hit! a intersects with b", x, y)
+            if x2 % bx == 0:
+                intersects = True
+                price = (x/ax)*A + (x2)/bx*B
+                if TEST:
+                    print("A hit! a intersects with b", x, y)
+                    print("which means cost is:", price)
+                pt1 += int(price)
         
-            cost2 = 0
-            for x2 in range(0, px, bx):
-                # if x2 > x:
-                cost2 += B
-                y = slope_b*x2
-                if (x2, y) == prize:
-                    print("A hit!", x, y)
-                    intersects = True
-                    break
+        y += ay
 
-    if intersects:
-        print(f"final {x=} {x2=}")
-        print("costs", (x/ax)*A + (x2-x)/bx*B )
-        print("costs2", cost+cost2)
-        pt1 += cost+cost2
-
-    else:
-        print("no solution")
-        # print("cost to get the prize", findPath((0, 0), (ax, ay), (bx, by), (px, py), 0))
     print("-"*25)
     
-# pt1 = 0      
 pt2 = 0
 
+print("part 2...")
+for c, claw in enumerate(claws):
+
+    a, b, prize = claw
+    ax, ay = [int(coord.strip()[2:]) for coord in a.split(":")[1].split(",")]
+    bx, by = [int(coord.strip()[2:]) for coord in b.split(":")[1].split(",")]
+    px, py = [int(coord.strip()[2:]) for coord in prize.split(": ")[1].split(",")]
+    
+    px += 10_000_000_000_000
+    py += 10_000_000_000_000
+
+    b_presses = (px*ay-py*ax)//(ay*bx-by*ax)
+    a_presses = (px*by-py*bx)//(by*ax-bx*ay)
+
+    print(f"claw {c+1}: {px, py} {a_presses=} {b_presses=}")
+
+    if ax*a_presses + bx*b_presses == px and ay*a_presses + by*b_presses == py:
+        print("hit")
+        pt2 += A*a_presses + B*b_presses
+
+    print("-"*25)
+  
 print("pt1", pt1)
 
-print(pt2)
+print("pt2", pt2)
 
