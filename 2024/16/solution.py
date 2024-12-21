@@ -3,13 +3,11 @@ from enum import Enum
 from functools import reduce
 from heapq import heappop, heappush
 
-fourDirs = ((1, 0), (0, 1), (-1, 0), (0, -1))  # up right down left
-
 YEAR = 2024
 DAY = 16
-TEST = True
+TEST = False
 
-file = f"{YEAR}/{DAY}/test.txt" if TEST else f"{YEAR}/{DAY}/input"
+file = f"{YEAR}/{DAY}/test2.txt" if TEST else f"{YEAR}/{DAY}/input"
 
 with open(file) as f:
     data = f.read().strip().split("\n")
@@ -45,7 +43,8 @@ def inbounds(pos):
 # def inbounds(coord: complex):
 #     return 0 <= coord.real < width and 0 <= coord.imag < height
 
-printgrid()
+if TEST:
+    printgrid()
 
 # dirs = {"N": - 1j, "E": 1 + 0j, "S": 0 + 1j, "W": -1 + 0j}
 dirs = ((0, -1), (1, 0), (0, 1), (-1, 0))
@@ -62,24 +61,22 @@ drunes = {
 }
 
 def dijkstra(start: tuple[int, int], end: tuple[int, int]):
-    heap = [(0, E, start)]
+    heap = [(0, E, start, [])]
     visited = set()
-    path = []
+    # path = []
     while heap:
-        cost, facing, (ux, uy) = heappop(heap)
+        cost, facing, (ux, uy), path = heappop(heap)
         if (ux, uy) in visited:
             continue
-        path.append((drunes[facing], (ux, uy)))
         visited.add((ux, uy))
-        if (ux, uy )== end:
+        if (ux, uy ) == end:
             return cost, path
         for v, d, in (((ux+dx, uy+dy), (dx, dy)) for (dx, dy) in (N, E, S, W)):
-            c = max(abs(dirs.index(facing) - dirs.index(d))*1000, 1)
-            print(c)
+            c = abs(dirs.index(facing) - dirs.index(d))*1000+1
             if not inbounds(v) or v in visited or grid.get(v) == "#":
                 continue
 
-            heappush(heap, (cost+c, d, v))
+            heappush(heap, (cost+c, d, v, [*path, (drunes[d], (ux, uy))]))
                 
     return -1, path
 
@@ -88,10 +85,13 @@ def dijkstra(start: tuple[int, int], end: tuple[int, int]):
 pt1, path = dijkstra(start, end)
 for (rune, (x, y)) in path:
     grid[x, y] = rune
-printgrid()
-pt2 = 0
+
+if TEST or True:
+    printgrid()
+    print(len(path))
 
 print("pt1", pt1)
 
+pt2 = 0
 print(pt2)
 
