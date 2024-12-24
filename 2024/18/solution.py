@@ -22,46 +22,26 @@ if TEST:
 else:
     width, height = 71, 71
 
-# grid = [["." for x in range(width)] for y in range(height)]
 grid = {}
 for x in range(width):
     for y in range(height):
-        # grid[i + j*1j] = "."
         grid[x, y] = "."
-        # grid[y][x] = "."
 
 corruption = []
 
 for i, line in enumerate(data):
     x, y = map(int, line.split(","))
-    # print((x, y))
     grid[x, y] = "#"
-    # grid[y][x] = "#"
-    # grid[x + y*1j] = "#"
     corruption.append((x, y))
-    # corruption.append(x + y*1j)
-    # if i == bytes:
-    #     break
 
-# print(grid)
-# for row in grid:
-#     print(" ".join(row))
 for r in range(height):
     print(" ".join(grid.get((c, r)) for c in range(width)))
-# print(corruption)
-# for r in range(height+1):
-#     print(" ".join(["#" if c + r*1j in corruption[:bytes] else "." for c in range(width+1)]))
 
-# print(grid)
-# goal = width + height*1j
 goal = width-1, height-1
 
-# print("corruption", corruption)
 def bfs(bytes):
-    # visited = {*corruption[:bytes]}
-    # queue = [(0, (0j))]
+  
     queue = deque([(0, (0, 0))])
-    # visited = set()
     visited = {*corruption[:bytes]}
 
     while queue:
@@ -74,11 +54,9 @@ def bfs(bytes):
     
         for dx, dy in dirs:
             nx, ny = x+dx, y+dy
-            # if (nx, ny) in grid and grid[nx, ny] != "#":
-            # if 0 <= nx < width and 0 <= ny < height and grid[ny][nx] != "#":
             if (nx, ny) in grid and (nx, ny) not in visited:
                 queue.append((dist+1, (nx, ny)))
-                # visited.add((nx, ny))
+                
     return 1e9
 
 print(bfs(bytes))
