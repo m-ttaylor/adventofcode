@@ -5,8 +5,8 @@ from heapq import heappop, heappush
 fourDirs = ((1, 0), (0, 1), (-1, 0), (0, -1))  # up right down left
 
 YEAR = 2024
-DAY = 13
-TEST = False
+DAY = _
+TEST = True
 
 file = f"{YEAR}/{DAY}/test.txt" if TEST else f"{YEAR}/{DAY}/input"
 
