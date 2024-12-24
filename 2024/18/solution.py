@@ -1,3 +1,4 @@
+from bisect import bisect
 from collections import defaultdict, Counter, deque
 from functools import reduce
 from heapq import heappop, heappush
@@ -59,10 +60,8 @@ def bfs(bytes):
                 
     return 1e9
 
-print(bfs(bytes))
+print("part 1\n", bfs(bytes))
 
-for i in range(len(corruption)):
-    if bfs(i) == 1e9:
-        print(",".join(map(str, corruption[i-1])))
-        break
+blocking_byte = corruption[bisect(range(len(corruption)), 1e9-1, key=bfs)-1]
+print("part 2\n", ",".join(map(str, blocking_byte)))
 
