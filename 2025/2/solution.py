@@ -23,9 +23,9 @@ for line in data:
     left, right = map(int, line.split("-"))
     for id in range(left, right+1):
         strid = str(id)
-        mid = len(strid)//2
-        if strid[:mid] == strid[mid:]:
-            pt1 += id
+        # mid = len(strid)//2
+        # if strid[:mid] == strid[mid:]:
+        #     pt1 += id
         if re.match(r'^(\d+)\1$', strid):
             pt1 += id
         if re.match(r'(\d+)\1+$', strid):
