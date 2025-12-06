@@ -4,5 +4,8 @@
     },
     "terminal.integrated.env.windows": {
         "PYTHONPATH": "${workspaceRoot}"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
     }
 }
